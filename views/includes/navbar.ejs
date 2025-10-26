@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+
+    <a class="navbar-brand text-primary" href="/">
+      <div class="awesome awesome-navbar">
+        <i class="fa-regular fa-file-lines"></i>
+      </div>EzInvoice
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto ">
+        <!-- <a class="nav-link link home" href="/">Home</a>  -->
+        <a class="nav-link link all" href="/invoices">All Invoices</a>
+        <a class="nav-link link edit"><i class="fa-solid fa-pen-to-square"></i> Edit Invoice</a>
+        <a class="nav-link link shows"><i class="fa-solid fa-eye"></i> Show Invoice</a>
+        <a class="nav-link link new" href="/invoices/new"><i class="fa-solid fa-plus"></i> Add new Invoice</a>
+        <a class="nav-link link log" href="/login">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+      </div>
+    </div>
+
+
+  </div>
+</nav>
+
+<style>
+  .link {
+    transition: background-color 0.3s, color 0.3s;
+    border: 2px solid rgb(97, 88, 88);
+    margin-right: 5px;
+    border-radius: 10px 10px 10px 10px;
+  }
+</style>

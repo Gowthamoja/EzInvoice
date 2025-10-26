@@ -1,0 +1,133 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container mt-5">
+<div class="row mb-5 g-4">
+<% let totalAmount = 0;
+let paidAmount = 0;
+
+    if (typeof allInvoices !== 'undefined') {
+        for(let invoice of allInvoices) {
+            totalAmount += (typeof invoice.total === 'number' ? invoice.total : 0);
+            if(invoice.status && invoice.status.toLowerCase() === 'paid') {
+                paidAmount += (typeof invoice.total === 'number' ? invoice.total : 0);
+            }
+        }
+    }
+    let unpaidAmount = totalAmount - paidAmount; %>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm p-3 rounded-3">
+            <div class="card-body bg-primary text-center">
+                <div class="text-uppercase text-light fw-semibold small mb-2">Total Outstanding</div>
+                <div class="fs-2 fw-bold text-light">
+                    &#8377;<%= (typeof totalAmount !== 'undefined' ? totalAmount : 0).toLocaleString('en-IN') %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm p-3 rounded-3">
+            <div class="card-body bg-success text-center">
+                <div class="text-uppercase text-light fw-semibold small mb-2">Total Paid</div>
+                <div class="fs-2 fw-bold text-light">
+                    &#8377;<%= (typeof paidAmount !== 'undefined' ? paidAmount : 0).toLocaleString('en-IN') %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm p-3 rounded-3">
+            <div class="card-body bg-danger text-center">
+                <div class="text-uppercase text-light fw-semibold small mb-2">Total Unpaid</div>
+                <div class="fs-2 fw-bold text-light">
+                    &#8377;<%= (typeof unpaidAmount !== 'undefined' ? unpaidAmount : 0).toLocaleString('en-IN') %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<h3 class="mb-4">All Invoices</h3>
+<div class="card p-4 shadow-sm mb-5">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-borderless align-middle invoice-table">
+
+                <thead>
+                    <tr class="table-light">
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">Invoice #</td>
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">Client</td>
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">Amount</td>
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">Due Date</td>
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">Status</td>
+                        <td class="small text-uppercase text-secondary fw-normal border-bottom pb-2">View Details</td> 
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <% if (typeof allInvoices !== 'undefined' && allInvoices.length > 0) { %>
+                        <% for(let invoice of allInvoices) { %>
+                            <tr>
+                                <td><%= invoice.invoiceNumber %></td>
+                                <td><%= invoice.billTo.clientName %></td>
+                                
+                                <td>&#8377;<%= invoice.total.toLocaleString('en-IN') %></td>
+                                
+                                <td> 
+                                    <% 
+                                        const dateObj = new Date(invoice.dueDate); 
+                                    %>
+                                    <%= dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                </td>
+                                
+                                <td>
+                                    <% 
+                                        let status = invoice.status ? invoice.status.toLowerCase() : 'unpaid';
+                                        let statusClass = status === 'paid' ? 'success' : 'danger';
+                                    %>
+                                    <span class="badge text-bg-<%= statusClass %> bg-opacity-25 text-<%= statusClass %> fw-bold p-2">
+                                        <%= status.charAt(0).toUpperCase() + status.slice(1) %>
+                                    </span>
+                                </td>
+                                
+                                <td>
+                                    <a href="/invoices/<%= invoice.id %>" class="btn btn-sm btn-outline-primary border-0">
+                                        <i class="fas fa-chevron-right small"></i> </a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">No invoices found. Click "Add New Invoice" to start!</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</div>
+<style>
+    .edit, .shows {
+        display: none;
+    }
+    .all {
+        color: white;
+        background-color: #0D6EFD;
+    }
+    .link {
+        transition: background-color 0.3s, color 0.3s;
+        border: 2px solid rgb(97, 88, 88);
+        margin-right: 5px;
+        border-radius: 10px 10px 10px 10px;
+    }
+    .link:hover {
+        background-color: #0D6EFD;
+        color: white;
+    }
+</style>

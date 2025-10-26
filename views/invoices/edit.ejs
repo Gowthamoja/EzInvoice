@@ -1,0 +1,388 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container my-5">
+    <form method="POST" action="/invoices/<%= invoice._id %>?_method=PUT" class="needs-validation" novalidate>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+            <div class="inv d-flex align-items-center mb-3 mb-md-0">
+                <a href="/invoices/<%=invoice.id%>" class="btn btn-sm btn-outline-primary me-2">
+                    <i class="fas fa-chevron-left small"></i>
+                </a>
+                <h3 class="fw-bold m-0">Edit the Invoice</h3>
+            </div>
+            <button type="submit" class="btn btn-primary px-4 shadow-sm">Save Changes</button>
+        </div>
+
+        <div class="card p-4 shadow-sm">
+            <div class="card-body">
+
+                <div class="card p-4 mb-4 shadow-sm border-0">
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3">
+                            <label for="invoiceNumber"
+                                class="form-label small text-uppercase text-muted">Invoice Number</label>
+                            <input type="text" id="invoiceNumber" value="<%= invoice.invoiceNumber %>"
+                                name="invoice[invoiceNumber]" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 col-md-4 mb-3">
+                            <label for="invoiceDate"
+                                class="form-label small text-uppercase text-muted">Invoice Date</label>
+                            <input type="date" id="invoiceDate"
+                                value="<%= invoice.invoiceDate.toISOString().substring(0, 10) %>"
+                                name="invoice[invoiceDate]" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 col-md-4 mb-3">
+                            <label for="dueDate" class="form-label small text-uppercase text-muted">Due Date</label>
+                            <input type="date" id="dueDate"
+                                value="<%= invoice.dueDate ? invoice.dueDate.toISOString().substring(0, 10) : '' %>"
+                                name="invoice[dueDate]" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4 g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="card p-4 h-100 shadow-sm border-0">
+                            <h5 class="card-title mb-3">Bill From</h5>
+
+                            <label for="businessName" class="form-label small">Business Name</label>
+                            <input type="text" id="businessName" value="<%= invoice.billFrom.businessName %>"
+                                name="invoice[billFrom][businessName]" class="form-control mb-3" required>
+
+                            <label for="businessEmail" class="form-label small">Email</label>
+                            <input type="email" id="businessEmail" value="<%= invoice.billFrom.email %>"
+                                name="invoice[billFrom][email]" class="form-control mb-3" required>
+
+                            <label for="businessAddress" class="form-label small">Address</label>
+                            <textarea id="businessAddress" name="invoice[billFrom][address]"
+                                class="form-control mb-3" rows="3"
+                                required><%= invoice.billFrom.address %></textarea>
+
+                            <label for="phoneNumber" class="form-label small">Phone</label>
+                            <input type="tel" id="phoneNumber" value="<%= invoice.billFrom.phone %>"
+                                name="invoice[billFrom][phone]" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="card p-4 h-100 shadow-sm border-0">
+                            <h5 class="card-title mb-3">Bill To</h5>
+
+                            <label for="clientName" class="form-label small">Client Name</label>
+                            <input type="text" id="clientName" value="<%= invoice.billTo.clientName %>"
+                                name="invoice[billTo][clientName]" class="form-control mb-3" required>
+
+                            <label for="clientEmail" class="form-label small">Client Email</label>
+                            <input type="email" id="clientEmail" value="<%= invoice.billTo.email %>"
+                                name="invoice[billTo][email]" class="form-control mb-3" required>
+
+                            <label for="clientAddress" class="form-label small">Client Address</label>
+                            <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
+                                rows="3" required><%= invoice.billTo.address %></textarea>
+
+                            <label for="phoneNumberClient" class="form-label small">Client Phone</label>
+                            <input type="tel" id="phoneNumberClient" value="<%= invoice.billTo.phone %>"
+                                name="invoice[billTo][phone]" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 mb-4 shadow-sm border-0">
+                    <h5 class="card-title mb-4">Invoice Items</h5>
+
+                    <div class="row g-3 fw-bold text-uppercase small text-muted border-bottom pb-2 d-none d-md-flex">
+                        <div class="col-md-5">Item</div>
+                        <div class="col-md-1 text-end">Qty</div>
+                        <div class="col-md-2 text-end">Price</div>
+                        <div class="col-md-1 text-end">Tax (%)</div>
+                        <div class="col-md-2 text-end">Total</div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div id="items-container" class="mt-3">
+                        <% if (invoice.items) { %>
+                            <% invoice.items.forEach((item, index)=> { %>
+                                <div class="row g-3 item-row border-bottom pb-3 mb-3" id="item-<%= index + 1 %>">
+
+                                    <div class="col-12 col-md-5">
+                                        <label class="form-label d-md-none small text-uppercase text-muted">Item Name</label>
+                                        <input type="text" name="invoice[items][<%= index %>][name]"
+                                            class="form-control" value="<%= item.name %>" placeholder="Item Name"
+                                            required>
+                                    </div>
+
+                                    <div class="col-6 col-md-1">
+                                        <label class="form-label d-md-none small text-uppercase text-muted">Qty</label>
+                                        <input type="number" name="invoice[items][<%= index %>][quantity]"
+                                            data-calc="quantity" class="form-control text-end"
+                                            value="<%= item.quantity %>" required min="1">
+                                    </div>
+
+                                    <div class="col-6 col-md-2">
+                                        <label class="form-label d-md-none small text-uppercase text-muted">Price</label>
+                                        <input type="number" name="invoice[items][<%= index %>][unitPrice]"
+                                            data-calc="price" class="form-control text-end"
+                                            value="<%= item.unitPrice %>" required min="0">
+                                    </div>
+
+                                    <div class="col-6 col-md-1">
+                                        <label class="form-label d-md-none small text-uppercase text-muted">Tax (%)</label>
+                                        <input type="number" name="invoice[items][<%= index %>][taxPercent]"
+                                            data-calc="tax" class="form-control text-end"
+                                            value="<%= item.taxPercent %>" required min="0" max="100">
+                                    </div>
+
+                                    <div class="col-6 col-md-2">
+                                        <label class="form-label d-md-none small text-uppercase text-muted">Item Total</label>
+                                        <input type="text" name="invoice[items][<%= index %>][total]"
+                                            data-calc="itemTotal" class="form-control-plaintext text-end fw-bold"
+                                            readonly value="<%= item.total.toFixed(2) %>">
+                                    </div>
+
+                                    <div class="col-12 col-md-1 d-flex align-items-center justify-content-end">
+                                        <button type="button" class="btn text-danger remove-item-btn p-0 ms-auto">
+                                            <i class="fa fa-trash"></i>
+                                            <span class="d-md-none ms-2">Remove Item</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                    </div>
+
+                    <button type="button" id="addItemBtn"
+                        class="btn btn-link text-decoration-none text-primary fw-bold p-0 mt-3 align-self-start">
+                        <i class="fa fa-plus"></i> Add Item
+                    </button>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="card p-4 h-100 shadow-sm border-0">
+                            <h5 class="card-title mb-3">Notes & Terms</h5>
+
+                            <label for="notes" class="form-label small">Notes</label>
+                            <textarea id="notes" name="invoice[notes]" class="form-control mb-3"
+                                rows="3"><%= invoice.notes %></textarea>
+
+                            <label for="terms" class="form-label small">Payment Terms</label>
+                            <input type="text" id="terms" value="<%= invoice.paymentTerms %>"
+                                name="invoice[paymentTerms]" class="form-control mb-3">
+
+                            <label for="status" class="form-label small">Status</label>
+                            <select id="status" name="invoice[status]" class="form-select">
+                                <option value="unpaid" <%=invoice.status==='unpaid' ? 'selected' : '' %>>Unpaid
+                                </option>
+                                <option value="paid" <%=invoice.status==='paid' ? 'selected' : '' %>>Paid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="card p-4 h-100 shadow-sm border-0 d-flex flex-column justify-content-end">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <input type="text" id="subtotal" name="invoice[subtotal]" readonly
+                                    value="<%= invoice.subtotal.toFixed(2) %>"
+                                    class="form-control-plaintext text-end fw-bold p-0 w-auto">
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax:</span>
+                                <input type="text" id="taxtotal" name="invoice[taxTotal]" readonly
+                                    value="<%= invoice.taxTotal.toFixed(2) %>"
+                                    class="form-control-plaintext text-end fw-bold p-0 w-auto">
+                            </div>
+
+                            <div class="d-flex justify-content-between pt-3 border-top">
+                                <span class="fs-4 fw-bolder">Total:</span>
+                                <input type="text" id="total" name="invoice[total]" readonly
+                                    value="<%= invoice.total.toFixed(2) %>"
+                                    class="form-control-plaintext text-end fs-4 fw-bolder text-primary p-0 w-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .inv {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    @media (max-width: 767.98px) {
+        .item-row .col-6, .item-row .col-12 {
+            margin-bottom: 0.5rem; 
+        }
+        .item-row .form-label {
+            display: block !important; 
+            font-size: 0.75rem;
+            margin-bottom: 0.2rem;
+        }
+    }
+
+    .edit {
+        color: white;
+        background-color: #0D6EFD;
+    }
+
+    .shows {
+        display: none;
+    }
+
+    .link {
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .link:hover {
+        background-color: #0D6EFD;
+        color: white;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('items-container');
+        const addButton = document.getElementById('addItemBtn');
+
+        let itemCounter = container.children.length;
+
+        const subtotalInput = document.getElementById('subtotal');
+        const taxTotalInput = document.getElementById('taxtotal');
+        const totalInput = document.getElementById('total');
+
+        function reIndexRows() {
+            let index = 0;
+            document.querySelectorAll('#items-container .row.item-row').forEach(row => {
+                row.id = `item-${index + 1}`;
+                row.querySelectorAll('input, textarea').forEach(input => { 
+                    if (input.name && input.name.includes('[items]')) {
+                        input.name = input.name.replace(/\[items\]\[\d+\]/, `[items][${index}]`);
+                    }
+                });
+                index++;
+            });
+        }
+
+        function updateTotals() {
+            let overallSubtotal = 0;
+            let overallTaxTotal = 0;
+
+            document.querySelectorAll('#items-container .row.item-row').forEach(row => {
+                const qtyInput = row.querySelector('[data-calc="quantity"]');
+                const priceInput = row.querySelector('[data-calc="price"]');
+                const taxInput = row.querySelector('[data-calc="tax"]');
+                const itemTotalInput = row.querySelector('[data-calc="itemTotal"]');
+
+                const qty = parseFloat(qtyInput?.value) || 0;
+                const price = parseFloat(priceInput?.value) || 0;
+                const taxPercent = parseFloat(taxInput?.value) || 0;
+
+                const itemSubtotal = qty * price;
+                const itemTax = itemSubtotal * (taxPercent / 100);
+                const itemTotal = itemSubtotal + itemTax;
+
+                if (itemTotalInput) itemTotalInput.value = itemTotal.toFixed(2);
+
+                overallSubtotal += itemSubtotal;
+                overallTaxTotal += itemTax;
+            });
+
+            const overallTotal = overallSubtotal + overallTaxTotal;
+
+            subtotalInput.value = overallSubtotal.toFixed(2);
+            taxTotalInput.value = overallTaxTotal.toFixed(2);
+            totalInput.value = overallTotal.toFixed(2);
+        }
+
+        function createNewItemRow() {
+            itemCounter++;
+            const rowId = `item-${itemCounter}`;
+            let newIndex = document.querySelectorAll('#items-container .row.item-row').length;
+
+            const newItemHTML = `
+            <div class="row g-3 item-row border-bottom pb-3 mb-3" id="${rowId}">
+                
+                <!-- Item Name -->
+                <div class="col-12 col-md-5">
+                    <label class="form-label d-md-none small text-uppercase text-muted">Item Name</label>
+                    <input type="text" name="invoice[items][${newIndex}][name]" class="form-control" placeholder="Item Name" required>
+                </div>
+
+                <!-- Quantity -->
+                <div class="col-6 col-md-1">
+                    <label class="form-label d-md-none small text-uppercase text-muted">Qty</label>
+                    <input type="number" name="invoice[items][${newIndex}][quantity]" data-calc="quantity" class="form-control text-end" required value="1" min="1">
+                </div>
+
+                <!-- Price -->
+                <div class="col-6 col-md-2">
+                    <label class="form-label d-md-none small text-uppercase text-muted">Price</label>
+                    <input type="number" name="invoice[items][${newIndex}][unitPrice]" data-calc="price" class="form-control text-end" required min="0">
+                </div>
+
+                <!-- Tax -->
+                <div class="col-6 col-md-1">
+                    <label class="form-label d-md-none small text-uppercase text-muted">Tax (%)</label>
+                    <input type="number" name="invoice[items][${newIndex}][taxPercent]" data-calc="tax" class="form-control text-end" required value="0" min="0" max="100">
+                </div>
+
+                <!-- Total -->
+                <div class="col-6 col-md-2">
+                    <label class="form-label d-md-none small text-uppercase text-muted">Item Total</label>
+                    <input type="text" name="invoice[items][${newIndex}][total]" data-calc="itemTotal" class="form-control-plaintext text-end fw-bold" readonly value="0.00">
+                </div>
+                
+                <!-- Delete Button -->
+                <div class="col-12 col-md-1 d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn text-danger remove-item-btn p-0 ms-auto">
+                        <i class="fa fa-trash"></i>
+                        <span class="d-md-none ms-2">Remove Item</span>
+                    </button>
+                </div>
+            </div>
+        `;
+
+            container.insertAdjacentHTML('beforeend', newItemHTML);
+
+            const newRow = document.getElementById(rowId);
+            const removeBtn = newRow.querySelector('.remove-item-btn');
+
+            newRow.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', updateTotals);
+            });
+
+            removeBtn.addEventListener('click', function () {
+                newRow.remove();
+                reIndexRows();
+                updateTotals();
+            });
+
+            reIndexRows();
+            updateTotals();
+            newRow.querySelector('input[type="text"]').focus();
+        }
+
+        document.querySelectorAll('#items-container .row.item-row input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateTotals);
+        });
+
+        document.querySelectorAll('#items-container .remove-item-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                button.closest('.item-row').remove();
+                reIndexRows();
+                updateTotals();
+            });
+        });
+
+        addButton.addEventListener('click', createNewItemRow);
+        updateTotals();
+    });
+</script>
