@@ -13,9 +13,12 @@ const Invoice = require('./models/invoice.js');
 
 const MONGO_URL = process.env.MONGO_URL;
 
+if (!MONGO_URL) {
+  console.error("ERROR: MONGO_URL is NOT defined. Add it in Render Environment Variables.");
+  process.exit(1);
+}
 
-// 'mongodb+srv://gowthamoja_db_user:y58n8Abryr0CezmH@cluster0.9pgci2b.mongodb.net/?appName=Cluster0';
-// const MONGO_URL = 'mongodb://127.0.0.1:27017/invoice';
+
 
 main()
 .then(() => {
