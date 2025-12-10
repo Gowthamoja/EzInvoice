@@ -9,6 +9,8 @@ const ejsMate = require('ejs-mate');
 
 const Invoice = require('./models/invoice.js');
 
+const PORT = process.env.PORT || 8080;
+
 // Read MongoDB URL from .env
 
 const MONGO_URL = process.env.MONGO_URL;
@@ -17,6 +19,7 @@ if (!MONGO_URL) {
   console.error("ERROR: MONGO_URL is NOT defined. Add it in Render Environment Variables.");
   process.exit(1);
 }
+
 
 
 
@@ -192,6 +195,6 @@ app.get('/forgot-password', (req,res) => {
 //     res.send("Successfully saved");
 // });
 
-app.listen(8080, () => {
-    console.log("server is listening to port 8080");
+app.listen(PORT, () => {
+    console.log("server is listening to port " + PORT);
 })
