@@ -23,6 +23,7 @@
                                 class="form-label small text-uppercase text-muted">Invoice Number</label>
                             <input type="text" id="invoiceNumber" value="<%= invoice.invoiceNumber %>"
                                 name="invoice[invoiceNumber]" class="form-control" required>
+                            <div class="invalid-feedback">Invoice number should be valid</div>
                         </div>
 
                         <div class="col-12 col-md-4 mb-3">
@@ -31,6 +32,7 @@
                             <input type="date" id="invoiceDate"
                                 value="<%= invoice.invoiceDate.toISOString().substring(0, 10) %>"
                                 name="invoice[invoiceDate]" class="form-control" required>
+                            <div class="invalid-feedback">Invoice date should be valid</div>
                         </div>
 
                         <div class="col-12 col-md-4 mb-3">
@@ -38,6 +40,7 @@
                             <input type="date" id="dueDate"
                                 value="<%= invoice.dueDate ? invoice.dueDate.toISOString().substring(0, 10) : '' %>"
                                 name="invoice[dueDate]" class="form-control" required>
+                            <div class="invalid-feedback">Due date should be valid</div>
                         </div>
                     </div>
                 </div>
@@ -47,22 +50,39 @@
                         <div class="card p-4 h-100 shadow-sm border-0">
                             <h5 class="card-title mb-3">Bill From</h5>
 
-                            <label for="businessName" class="form-label small">Business Name</label>
-                            <input type="text" id="businessName" value="<%= invoice.billFrom.businessName %>"
+                            <div>
+
+                                
+                                <label for="businessName" class="form-label small">Business Name</label>
+                                <input type="text" id="businessName" value="<%= invoice.billFrom.businessName %>"
                                 name="invoice[billFrom][businessName]" class="form-control mb-3" required>
+                                <div class="invalid-feedback">Business name should be valid</div>
+                            </div>
 
-                            <label for="businessEmail" class="form-label small">Email</label>
-                            <input type="email" id="businessEmail" value="<%= invoice.billFrom.email %>"
+                            <div>
+
+                                <label for="businessEmail" class="form-label small">Email</label>
+                                <input type="email" id="businessEmail" value="<%= invoice.billFrom.email %>"
                                 name="invoice[billFrom][email]" class="form-control mb-3" required>
+                                <div class="invalid-feedback">Business email should be valid</div>
+                            </div>
 
-                            <label for="businessAddress" class="form-label small">Address</label>
-                            <textarea id="businessAddress" name="invoice[billFrom][address]"
+                            <div>
+
+                                <label for="businessAddress" class="form-label small">Address</label>
+                                <textarea id="businessAddress" name="invoice[billFrom][address]"
                                 class="form-control mb-3" rows="3"
                                 required><%= invoice.billFrom.address %></textarea>
+                                <div class="invalid-feedback">Business address should be valid</div>
+                            </div>
 
-                            <label for="phoneNumber" class="form-label small">Phone</label>
-                            <input type="tel" id="phoneNumber" value="<%= invoice.billFrom.phone %>"
+                            <div>
+
+                                <label for="phoneNumber" class="form-label small">Phone</label>
+                                <input type="tel" id="phoneNumber" value="<%= invoice.billFrom.phone %>"
                                 name="invoice[billFrom][phone]" class="form-control" required>
+                                <div class="invalid-feedback">Business phone should be valid</div>
+                            </div>
                         </div>
                     </div>
 
@@ -70,21 +90,37 @@
                         <div class="card p-4 h-100 shadow-sm border-0">
                             <h5 class="card-title mb-3">Bill To</h5>
 
-                            <label for="clientName" class="form-label small">Client Name</label>
-                            <input type="text" id="clientName" value="<%= invoice.billTo.clientName %>"
-                                name="invoice[billTo][clientName]" class="form-control mb-3" required>
+                            <div>
 
+                                <label for="clientName" class="form-label small">Client Name</label>
+                                <input type="text" id="clientName" value="<%= invoice.billTo.clientName %>"
+                                name="invoice[billTo][clientName]" class="form-control mb-3" required>
+                                <div class="invalid-feedback">Client name should be valid</div>
+                            </div>
+                                
+
+                            <div>
                             <label for="clientEmail" class="form-label small">Client Email</label>
                             <input type="email" id="clientEmail" value="<%= invoice.billTo.email %>"
                                 name="invoice[billTo][email]" class="form-control mb-3" required>
+                            <div class="invalid-feedback">Client email should be valid</div>
+                            </div>
 
-                            <label for="clientAddress" class="form-label small">Client Address</label>
-                            <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
+                            <div>
+
+                                <label for="clientAddress" class="form-label small">Client Address</label>
+                                <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
                                 rows="3" required><%= invoice.billTo.address %></textarea>
+                                <div class="invalid-feedback">Client address should be valid</div>
+                            </div>
+                                
+                            <div>
 
-                            <label for="phoneNumberClient" class="form-label small">Client Phone</label>
-                            <input type="tel" id="phoneNumberClient" value="<%= invoice.billTo.phone %>"
+                                <label for="phoneNumberClient" class="form-label small">Client Phone</label>
+                                <input type="tel" id="phoneNumberClient" value="<%= invoice.billTo.phone %>"
                                 name="invoice[billTo][phone]" class="form-control" required>
+                                <div class="invalid-feedback">Client phone should be valid</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,6 +147,7 @@
                                         <input type="text" name="invoice[items][<%= index %>][name]"
                                             class="form-control" value="<%= item.name %>" placeholder="Item Name"
                                             required>
+                                        <div class="invalid-feedback">Item name should be valid</div>
                                     </div>
 
                                     <div class="col-6 col-md-1">
@@ -118,6 +155,7 @@
                                         <input type="number" name="invoice[items][<%= index %>][quantity]"
                                             data-calc="quantity" class="form-control text-end"
                                             value="<%= item.quantity %>" required min="1">
+                                        <div class="invalid-feedback">Quantity should be valid</div>
                                     </div>
 
                                     <div class="col-6 col-md-2">
@@ -125,6 +163,7 @@
                                         <input type="number" name="invoice[items][<%= index %>][unitPrice]"
                                             data-calc="price" class="form-control text-end"
                                             value="<%= item.unitPrice %>" required min="0">
+                                        <div class="invalid-feedback">Price should be valid</div>
                                     </div>
 
                                     <div class="col-6 col-md-1">
@@ -132,6 +171,7 @@
                                         <input type="number" name="invoice[items][<%= index %>][taxPercent]"
                                             data-calc="tax" class="form-control text-end"
                                             value="<%= item.taxPercent %>" required min="0" max="100">
+                                        <div class="invalid-feedback">Tax should be valid</div>
                                     </div>
 
                                     <div class="col-6 col-md-2">
@@ -314,24 +354,28 @@
                 <div class="col-12 col-md-5">
                     <label class="form-label d-md-none small text-uppercase text-muted">Item Name</label>
                     <input type="text" name="invoice[items][${newIndex}][name]" class="form-control" placeholder="Item Name" required>
+                    <div class="invalid-feedback">Item name should be valid</div>
                 </div>
 
                 <!-- Quantity -->
                 <div class="col-6 col-md-1">
                     <label class="form-label d-md-none small text-uppercase text-muted">Qty</label>
                     <input type="number" name="invoice[items][${newIndex}][quantity]" data-calc="quantity" class="form-control text-end" required value="1" min="1">
+                    <div class="invalid-feedback">Quantity should be valid</div>
                 </div>
 
                 <!-- Price -->
                 <div class="col-6 col-md-2">
                     <label class="form-label d-md-none small text-uppercase text-muted">Price</label>
                     <input type="number" name="invoice[items][${newIndex}][unitPrice]" data-calc="price" class="form-control text-end" required min="0">
+                    <div class="invalid-feedback">Price should be valid</div>
                 </div>
 
                 <!-- Tax -->
                 <div class="col-6 col-md-1">
                     <label class="form-label d-md-none small text-uppercase text-muted">Tax (%)</label>
                     <input type="number" name="invoice[items][${newIndex}][taxPercent]" data-calc="tax" class="form-control text-end" required value="0" min="0" max="100">
+                    <div class="invalid-feedback">Tax should be valid</div>
                 </div>
 
                 <!-- Total -->

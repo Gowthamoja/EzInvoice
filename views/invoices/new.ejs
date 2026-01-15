@@ -15,8 +15,11 @@
                             <div class="col-md-4 mb-3">
                                 <label for="invoiceNumber" class="form-label small text-uppercase text-muted">Invoice
                                     Number</label>
+                                
                                 <input type="text" id="invoiceNumber" name="invoice[invoiceNumber]" class="form-control"
                                     placeholder="INV-0001" required>
+                                    <!-- <div class="valid-feedback">Invoice number is valid</div> -->
+                                    <div class="invalid-feedback">Invoice number should be valid</div>
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -24,11 +27,14 @@
                                     Date</label>
                                 <input type="date" id="invoiceDate" name="invoice[invoiceDate]" class="form-control"
                                     required>
+                                <div class="invalid-feedback">Invoice date should be valid</div>
+                                    
                             </div>
 
                             <div class="col-md-4 mb-3">
                                 <label for="dueDate" class="form-label small text-uppercase text-muted">Due Date</label>
                                 <input type="date" id="dueDate" name="invoice[dueDate]" class="form-control" required>
+                                <div class="invalid-feedback">Due date should be valid</div>
                             </div>
                         </div>
                     </div>
@@ -38,43 +44,71 @@
                             <div class="card p-4 h-100 shadow-sm border-0">
                                 <h5 class="card-title mb-3">Bill From</h5>
 
-                                <label for="businessName" class="form-label small">Business Name</label>
-                                <input type="text" id="businessName" name="invoice[billFrom][businessName]"
-                                    class="form-control mb-3" required>
+                                <div>
 
-                                <label for="businessEmail" class="form-label small">Email</label>
-                                <input type="email" id="businessEmail" name="invoice[billFrom][email]"
-                                    class="form-control mb-3" required>
+                                    <label for="businessName" class="form-label small">Business Name</label>
+                                    <input type="text" id="businessName" name="invoice[billFrom][businessName]"
+                                    class="form-control mb-3" value="<%= user.businessDetails.businessName %>" required>
+                                    <div class="invalid-feedback">Business name should be valid</div>
+                                </div>
 
-                                <label for="businessAddress" class="form-label small">Address</label>
-                                <textarea id="businessAddress" name="invoice[billFrom][address]"
-                                    class="form-control mb-3" rows="3" required></textarea>
+                                <div>
 
+                                    <label for="businessEmail" class="form-label small">Email</label>
+                                    <input type="email" id="businessEmail" name="invoice[billFrom][email]"
+                                    class="form-control mb-3" value="<%= user.email %>" required>
+                                    <div class="invalid-feedback">Business email should be valid</div>
+                                </div>
+
+                                <div>
+
+                                    <label for="businessAddress" class="form-label small">Address</label>
+                                    <textarea id="businessAddress" name="invoice[billFrom][address]"
+                                    class="form-control mb-3" rows="3" required> <%= user.businessDetails.address %> </textarea>
+                                    <div class="invalid-feedback">Business address should be valid</div>
+                                </div>
+
+                            <div>
                                 <label for="phoneNumber" class="form-label small">Phone</label>
-                                <input type="tel" id="phoneNumber" name="invoice[billFrom][phone]" class="form-control"
+                                <input type="tel" id="phoneNumber" name="invoice[billFrom][phone]" class="form-control" value="<%= user.businessDetails.phone %>"
                                     required>
+                                <div class="invalid-feedback">Business phone should be valid</div>
+                            </div>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <div class="card p-4 h-100 shadow-sm border-0">
                                 <h5 class="card-title mb-3">Bill To</h5>
+                                
+                                <div>
+                                  <label for="clientName" class="form-label small">Client Name</label>
+                                  <input type="text" id="clientName" name="invoice[billTo][clientName]"
+                                  class="form-control mb-3" required>
+                                  <div class="invalid-feedback">Client name should be valid</div>
+                                </div>  
+                                <div>
 
-                                <label for="clientName" class="form-label small">Client Name</label>
-                                <input type="text" id="clientName" name="invoice[billTo][clientName]"
+                                    <label for="clientEmail" class="form-label small">Client Email</label>
+                                    <input type="email" id="clientEmail" name="invoice[billTo][email]"
                                     class="form-control mb-3" required>
+                                    <div class="invalid-feedback">Client email should be valid</div>
+                                </div>
+                                
+                                <div>
 
-                                <label for="clientEmail" class="form-label small">Client Email</label>
-                                <input type="email" id="clientEmail" name="invoice[billTo][email]"
-                                    class="form-control mb-3" required>
-
-                                <label for="clientAddress" class="form-label small">Client Address</label>
-                                <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
+                                    <label for="clientAddress" class="form-label small">Client Address</label>
+                                    <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
                                     rows="3" required></textarea>
+                                    <div class="invalid-feedback">Client address should be valid</div>
+                                </div>
 
+                            <div>
                                 <label for="phoneNumberClient" class="form-label small">Client Phone</label>
                                 <input type="tel" id="phoneNumberClient" name="invoice[billTo][phone]"
                                     class="form-control" required>
+                                <div class="invalid-feedback">Client phone should be valid</div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -221,15 +255,19 @@
             <div class="row g-3 item-row border-bottom pb-3 mb-3" id="${rowId}">
                 <div class="col-5">
                     <input type="text" name="invoice[items][][name]" class="form-control" placeholder="Item Name" required>
+                    <div class="invalid-feedback">Item name should be valid</div>
                 </div>
                 <div class="col-1">
                     <input type="number" name="invoice[items][][quantity]" data-calc="quantity" class="form-control text-end" required value="1" min="1">
+                    <div class="invalid-feedback">Quantity should be valid</div>
                 </div>
                 <div class="col-2">
                     <input type="number" name="invoice[items][][unitPrice]" data-calc="price" class="form-control text-end" required min="0">
+                    <div class="invalid-feedback">Price should be valid</div>
                 </div>
                 <div class="col-1">
                     <input type="number" name="invoice[items][][taxPercent]" data-calc="tax" class="form-control text-end" required value="0" min="0">
+                    <div class="invalid-feedback">Tax should be valid</div>
                 </div>
                 <div class="col-2">
                     <input type="text" name="invoice[items][][total]" data-calc="itemTotal" class="form-control-plaintext text-end fw-bold" readonly value="0.00">
@@ -268,7 +306,6 @@
 
             addButton.addEventListener('click', createNewItemRow);
 
-            // On load: create 1 row
             createNewItemRow();
         });
     </script>

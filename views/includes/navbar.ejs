@@ -13,25 +13,44 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ms-auto ">
-        <!-- <a class="nav-link link home" href="/">Home</a>  -->
-        <a class="nav-link link all" href="/invoices">All Invoices</a>
-        <a class="nav-link link edit"><i class="fa-solid fa-pen-to-square"></i> Edit Invoice</a>
-        <a class="nav-link link shows"><i class="fa-solid fa-eye"></i> Show Invoice</a>
-        <a class="nav-link link new" href="/invoices/new"><i class="fa-solid fa-plus"></i> Add new Invoice</a>
-        <a class="nav-link link log" href="/login">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+      <div class="navbar-nav ms-auto">
+        
+        <% if(!currUser) { %>
+          <a class="nav-link link" href="/login">Login</a>
+          <a class="nav-link link" href="/signup">Signup</a>
+        <% } %>
+
+        <% if(currUser) { %>
+          <a class="nav-link link all" href="/invoices">All Invoices</a>
+          <% } %>
+          <a class="nav-link link edit"><i class="fa-solid fa-pen-to-square"></i> Edit Invoice</a>
+          <a class="nav-link link shows"><i class="fa-solid fa-eye"></i> Show Invoice</a>
+          <% if(currUser) { %>
+          <a class="nav-link link new" href="/invoices/new"><i class="fa-solid fa-plus"></i> Add new Invoice</a>
+          
+          <a class="nav-link link profile" href="/profile"><i class="fa-solid fa-user-gear"></i> Profile</a>
+          
+          <a class="nav-link link log" href="/logout">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+        <% } %>
+
       </div>
     </div>
-
-
   </div>
 </nav>
 
-<style>
+<!-- <style>
   .link {
     transition: background-color 0.3s, color 0.3s;
     border: 2px solid rgb(97, 88, 88);
     margin-right: 5px;
-    border-radius: 10px 10px 10px 10px;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
   }
-</style>
+  .link:hover {
+    background-color: #f8f9fa;
+  }
+  .log:hover {
+    background-color: #f8d7da;
+    color: #842029;
+  }
+</style> -->

@@ -47,6 +47,26 @@
 
 }
 
+.link {
+    transition: background-color 0.3s, color 0.3s;
+    border: 2px solid rgb(97, 88, 88);
+    margin-right: 5px;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+  }
+  .link:hover {
+    background-color: #f8f9fa;
+  }
+  .log {
+      color: #842029;
+      
+    }
+    .log:hover {
+      color: #842029 !important;
+    background-color: #f8d7da !important;
+  }
+
+
 /* Footer */
 
 /* .awesome-footer {
@@ -79,3 +99,4 @@
     align-items: center;
     padding: 1.5rem;
 }
+

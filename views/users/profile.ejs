@@ -1,0 +1,64 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card p-4 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold m-0">Business Settings</h3>
+                        <!-- <a href="/invoices" class="btn btn-sm btn-outline-secondary">Back</a> -->
+                    </div>
+
+                    <form action="/profile?_method=PUT" method="POST" class="needs-validation" novalidate>
+                        
+                        <div class="mb-3">
+                            <label class="form-label small text-uppercase text-muted">Business Name</label>
+                            <input type="text" class="form-control" name="businessName" 
+                                value="<%= user.businessDetails.businessName %>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small text-uppercase text-muted">Phone Number</label>
+                            <input type="tel" class="form-control" name="phone" 
+                                value="<%= user.businessDetails.phone %>" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small text-uppercase text-muted">Business Address</label>
+                            <textarea class="form-control" name="address" rows="3" required><%= user.businessDetails.address %></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary fw-bold">Update Profile</button>
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <p class="small text-muted">Account Email: <strong><%= user.email %></strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .edit, .shows {
+        display: none;
+    }
+    .profile {
+        color: white;
+        background-color: #0D6EFD;
+        /* text-decoration: underline; */
+    }
+    .link {
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .link:hover {
+        background-color: #0D6EFD;
+        color: white;
+
+    }
+</style>

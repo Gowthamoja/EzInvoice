@@ -7,8 +7,8 @@ let paidAmount = 0;
 
     if (typeof allInvoices !== 'undefined') {
         for(let invoice of allInvoices) {
-            totalAmount += (typeof invoice.total === 'number' ? invoice.total : 0);
-            if(invoice.status && invoice.status.toLowerCase() === 'paid') {
+            totalAmount += (invoice && typeof invoice.total === 'number' ? invoice.total : 0);
+            if(invoice && invoice.status && invoice.status.toLowerCase() === 'paid') {
                 paidAmount += (typeof invoice.total === 'number' ? invoice.total : 0);
             }
         }
@@ -72,15 +72,18 @@ let paidAmount = 0;
                         <% for(let invoice of allInvoices) { %>
                             <tr>
                                 <td><%= invoice.invoiceNumber %></td>
-                                <td><%= invoice.billTo.clientName %></td>
+                                <td><%= (invoice.billTo && invoice.billTo.clientName) ? invoice.billTo.clientName : 'N/A' %></td>
                                 
-                                <td>&#8377;<%= invoice.total.toLocaleString('en-IN') %></td>
+                                <td>&#8377;<%= (invoice.total || 0).toLocaleString('en-IN') %></td>
                                 
                                 <td> 
                                     <% 
-                                        const dateObj = new Date(invoice.dueDate); 
+                                        const dateObj = invoice.dueDate ? new Date(invoice.dueDate) : null; 
+                                        const displayDate = (dateObj && !isNaN(dateObj)) 
+                                            ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) 
+                                            : 'N/A';
                                     %>
-                                    <%= dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                                    <%= displayDate %>
                                 </td>
                                 
                                 <td>

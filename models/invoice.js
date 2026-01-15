@@ -12,7 +12,7 @@ const itemSchema = new mongoose.Schema({
     unitPrice: {
         type: Number,
         required: true
-    }, 
+    },
     taxPercent: {
         type: Number,
         default: 0
@@ -24,9 +24,15 @@ const itemSchema = new mongoose.Schema({
 });
 
 const invoiceSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     invoiceNumber: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     invoiceDate: {
         type: Date,
@@ -39,13 +45,25 @@ const invoiceSchema = new mongoose.Schema({
         businessName: String,
         email: String,
         address: String,
-        phone: String,
+        phone: {
+            type: String,
+            required: true,
+            trim: true,
+            match: [/^[6-9]\d{9}$/, "Invalid Indian phone number"]
+        }
+
+
     },
     billTo: {
         clientName: String,
         email: String,
         address: String,
-        phone: String,
+        phone: {
+            type: String,
+            required: true,
+            trim: true,
+            match: [/^[6-9]\d{9}$/, "Invalid Indian phone number"]
+        },
     },
     items: [itemSchema],
     notes: {
@@ -57,7 +75,7 @@ const invoiceSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['paid','unpaid'],
+        enum: ['paid', 'unpaid'],
         default: 'unpaid',
     },
     subtotal: Number,
@@ -66,9 +84,9 @@ const invoiceSchema = new mongoose.Schema({
 
 
 },
-{
-    timestamps: true,
-}
+    {
+        timestamps: true,
+    }
 );
 
 module.exports = mongoose.model("Invoice", invoiceSchema);
