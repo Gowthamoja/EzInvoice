@@ -13,16 +13,23 @@ module.exports.renderNewForm = async (req, res) => {
     res.render('invoices/new.ejs', {user: req.user});
 };
 
-module.exports.showInvoices = async (req, res, next) => {
-    let newInvoice = new Invoice(req.body.invoice);
-    newInvoice.user = req.user._id;
-    console.log(Invoice);
-    await newInvoice.save();
-    req.flash("success", "New Invoice Created!");
-    res.redirect('/invoices');
-};
+
 
 module.exports.createInvoice = async (req, res, next) => {
+
+    const { invoiceNumber } = req.body.invoice;
+
+    const existingInvoice = await Invoice.findOne({ 
+        invoiceNumber: invoiceNumber, 
+        user: req.user._id 
+    });
+
+    if (existingInvoice) {
+        req.flash("error", "You have already used this invoice number!");
+        return res.redirect('/invoices/new');
+    }
+
+
     let newInvoice = new Invoice(req.body.invoice);
     newInvoice.user = req.user._id;
     console.log(Invoice);

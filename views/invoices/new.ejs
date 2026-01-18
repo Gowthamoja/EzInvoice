@@ -3,8 +3,9 @@
     <div class="container my-4">
         <form method="POST" action="/invoices" class="needs-validation" novalidate>
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold">Create Invoice</h3>
+            <div class="d-flex justify-content-between align-items-center mb-4 sticky-top bg-white w-100 py-3 px-2 border-bottom"
+                style="top: 70px; z-index: 1020;">
+                <h3 class="fw-bold m-0">Create Invoice</h3>
                 <button type="submit" class="btn btn-primary px-4 shadow-sm">Save Invoice</button>
             </div>
             <div class="card p-4 shadow-sm">
@@ -15,11 +16,11 @@
                             <div class="col-md-4 mb-3">
                                 <label for="invoiceNumber" class="form-label small text-uppercase text-muted">Invoice
                                     Number</label>
-                                
+
                                 <input type="text" id="invoiceNumber" name="invoice[invoiceNumber]" class="form-control"
                                     placeholder="INV-0001" required>
-                                    <!-- <div class="valid-feedback">Invoice number is valid</div> -->
-                                    <div class="invalid-feedback">Invoice number should be valid</div>
+                                <!-- <div class="valid-feedback">Invoice number is valid</div> -->
+                                <div class="invalid-feedback">Invoice number should be valid</div>
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -28,7 +29,7 @@
                                 <input type="date" id="invoiceDate" name="invoice[invoiceDate]" class="form-control"
                                     required>
                                 <div class="invalid-feedback">Invoice date should be valid</div>
-                                    
+
                             </div>
 
                             <div class="col-md-4 mb-3">
@@ -48,7 +49,8 @@
 
                                     <label for="businessName" class="form-label small">Business Name</label>
                                     <input type="text" id="businessName" name="invoice[billFrom][businessName]"
-                                    class="form-control mb-3" value="<%= user.businessDetails.businessName %>" required>
+                                        class="form-control mb-3" value="<%= user.businessDetails.businessName %>"
+                                        required>
                                     <div class="invalid-feedback">Business name should be valid</div>
                                 </div>
 
@@ -56,7 +58,7 @@
 
                                     <label for="businessEmail" class="form-label small">Email</label>
                                     <input type="email" id="businessEmail" name="invoice[billFrom][email]"
-                                    class="form-control mb-3" value="<%= user.email %>" required>
+                                        class="form-control mb-3" value="<%= user.email %>" required>
                                     <div class="invalid-feedback">Business email should be valid</div>
                                 </div>
 
@@ -64,51 +66,52 @@
 
                                     <label for="businessAddress" class="form-label small">Address</label>
                                     <textarea id="businessAddress" name="invoice[billFrom][address]"
-                                    class="form-control mb-3" rows="3" required> <%= user.businessDetails.address %> </textarea>
+                                        class="form-control mb-3" rows="3"
+                                        required> <%= user.businessDetails.address %> </textarea>
                                     <div class="invalid-feedback">Business address should be valid</div>
                                 </div>
 
-                            <div>
-                                <label for="phoneNumber" class="form-label small">Phone</label>
-                                <input type="tel" id="phoneNumber" name="invoice[billFrom][phone]" class="form-control" value="<%= user.businessDetails.phone %>"
-                                    required>
-                                <div class="invalid-feedback">Business phone should be valid</div>
-                            </div>
+                                <div>
+                                    <label for="phoneNumber" class="form-label small">Phone</label>
+                                    <input type="tel" id="phoneNumber" name="invoice[billFrom][phone]"
+                                        class="form-control" value="<%= user.businessDetails.phone %>" required>
+                                    <div class="invalid-feedback">Business phone should be valid</div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <div class="card p-4 h-100 shadow-sm border-0">
                                 <h5 class="card-title mb-3">Bill To</h5>
-                                
+
                                 <div>
-                                  <label for="clientName" class="form-label small">Client Name</label>
-                                  <input type="text" id="clientName" name="invoice[billTo][clientName]"
-                                  class="form-control mb-3" required>
-                                  <div class="invalid-feedback">Client name should be valid</div>
-                                </div>  
+                                    <label for="clientName" class="form-label small">Client Name</label>
+                                    <input type="text" id="clientName" name="invoice[billTo][clientName]"
+                                        class="form-control mb-3" required>
+                                    <div class="invalid-feedback">Client name should be valid</div>
+                                </div>
                                 <div>
 
                                     <label for="clientEmail" class="form-label small">Client Email</label>
                                     <input type="email" id="clientEmail" name="invoice[billTo][email]"
-                                    class="form-control mb-3" required>
+                                        class="form-control mb-3" required>
                                     <div class="invalid-feedback">Client email should be valid</div>
                                 </div>
-                                
+
                                 <div>
 
                                     <label for="clientAddress" class="form-label small">Client Address</label>
-                                    <textarea id="clientAddress" name="invoice[billTo][address]" class="form-control mb-3"
-                                    rows="3" required></textarea>
+                                    <textarea id="clientAddress" name="invoice[billTo][address]"
+                                        class="form-control mb-3" rows="3" required></textarea>
                                     <div class="invalid-feedback">Client address should be valid</div>
                                 </div>
 
-                            <div>
-                                <label for="phoneNumberClient" class="form-label small">Client Phone</label>
-                                <input type="tel" id="phoneNumberClient" name="invoice[billTo][phone]"
-                                    class="form-control" required>
-                                <div class="invalid-feedback">Client phone should be valid</div>
-                            </div>
+                                <div>
+                                    <label for="phoneNumberClient" class="form-label small">Client Phone</label>
+                                    <input type="tel" id="phoneNumberClient" name="invoice[billTo][phone]"
+                                        class="form-control" required>
+                                    <div class="invalid-feedback">Client phone should be valid</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -177,8 +180,8 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    </div>
+                </div>
+            </div>
         </form>
     </div>
 
@@ -299,8 +302,8 @@
                 reIndexRows();
                 updateTotals();
                 updateRemoveButtons();
-                if(itemCounter != 1) {  
-                newRow.querySelector('input[type="text"]').focus();
+                if (itemCounter != 1) {
+                    newRow.querySelector('input[type="text"]').focus();
                 }
             }
 
@@ -308,23 +311,33 @@
 
             createNewItemRow();
         });
+        const form = document.querySelector("form");
+
+form.addEventListener("submit", function () {
+    updateTotals();
+});
+
     </script>
 
     <style>
-    .edit, .shows {
-        display: none;
-    }
-    .new {
-        color: white;
-        background-color: #0D6EFD;
-        /* text-decoration: underline; */
-    }
-    .link {
-        transition: background-color 0.3s, color 0.3s;
-    }
-    .link:hover {
-        background-color: #0D6EFD;
-        color: white;
+        .edit,
+        .shows {
+            display: none;
+        }
 
-    }
-</style>
+        .new {
+            color: white;
+            background-color: #0D6EFD;
+            /* text-decoration: underline; */
+        }
+
+        .link {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .link:hover {
+            background-color: #0D6EFD;
+            color: white;
+
+        }
+    </style>

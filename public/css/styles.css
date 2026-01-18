@@ -58,12 +58,13 @@
     background-color: #f8f9fa;
   }
   .log {
-      color: #842029;
+      color: #FF3B3B;
       
+      border: #FF3B3B 2px solid;
     }
     .log:hover {
-      color: #842029 !important;
-    background-color: #f8d7da !important;
+      color: white !important;
+    background-color: #FF3B3B !important;
   }
 
 

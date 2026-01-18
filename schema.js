@@ -3,7 +3,7 @@ const Joi = require('joi');
 module.exports.invoiceSchema = Joi.object({
     invoice: Joi.object({
         invoiceNumber: Joi.string().required(),
-        invoiceDate: Joi.date().allow(''), // Allows empty string from HTML date pickers
+        invoiceDate: Joi.date().allow(''), 
         dueDate: Joi.date().required(),
         billFrom: Joi.object({
             businessName: Joi.string().required(),

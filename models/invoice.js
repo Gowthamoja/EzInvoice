@@ -32,7 +32,6 @@ const invoiceSchema = new mongoose.Schema({
     invoiceNumber: {
         type: String,
         required: true,
-        unique: true
     },
     invoiceDate: {
         type: Date,
@@ -51,8 +50,6 @@ const invoiceSchema = new mongoose.Schema({
             trim: true,
             match: [/^[6-9]\d{9}$/, "Invalid Indian phone number"]
         }
-
-
     },
     billTo: {
         clientName: String,
@@ -81,12 +78,10 @@ const invoiceSchema = new mongoose.Schema({
     subtotal: Number,
     taxTotal: Number,
     total: Number,
+}, {
+    timestamps: true,
+});
 
-
-},
-    {
-        timestamps: true,
-    }
-);
+invoiceSchema.index({ user: 1, invoiceNumber: 1 }, { unique: true });
 
 module.exports = mongoose.model("Invoice", invoiceSchema);
